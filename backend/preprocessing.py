@@ -216,7 +216,7 @@ if __name__ == "__main__":
 
     csv_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "data", "processed", "tickets_clean.csv"
+        "..", "data", "processed", "tickets_clean.csv"
     )
 
     if os.path.exists(csv_path):
@@ -241,5 +241,5 @@ if __name__ == "__main__":
     else:
         print("  Dataset no encontrado. Ejecuta primero data/prepare_dataset.py")
 
-    print("\n✅ Módulo preprocessing.py listo.")
+    print("\nOK - Módulo preprocessing.py listo.")
     print("   Puedes continuar con la Etapa 3: naive_bayes.py")

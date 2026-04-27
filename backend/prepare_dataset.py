@@ -37,8 +37,8 @@ random.seed(42)
 # CONFIGURACIÓN DE RUTAS
 # -------------------------------------------------------
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
-RAW_PATH   = os.path.join(BASE_DIR, "data", "raw", "customer_support_tickets.csv")
-CLEAN_PATH = os.path.join(BASE_DIR, "data", "processed", "tickets_clean.csv")
+RAW_PATH   = os.path.join(BASE_DIR, "..", "data", "raw", "customer_support_tickets.csv")
+CLEAN_PATH = os.path.join(BASE_DIR, "..", "data", "processed", "tickets_clean.csv")
 
 # -------------------------------------------------------
 # PALABRAS CLAVE DE DOMINIO POR CATEGORÍA
@@ -184,4 +184,4 @@ print(f"  TOTAL: {total}")
 
 os.makedirs(os.path.dirname(CLEAN_PATH), exist_ok=True)
 df_clean.to_csv(CLEAN_PATH, index=False, encoding="utf-8")
-print(f"\n✅ Dataset guardado en: {CLEAN_PATH}")
+print(f"\nOK - Dataset guardado en: {CLEAN_PATH}")

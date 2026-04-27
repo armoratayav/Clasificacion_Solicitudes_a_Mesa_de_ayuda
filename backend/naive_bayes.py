@@ -38,7 +38,7 @@ from collections import defaultdict
 # Importamos solo nuestro módulo de preprocesamiento
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from backend.preprocessing import preprocess_text
+from preprocessing import preprocess_text
 
 
 class MultinomialNaiveBayes:
@@ -342,11 +342,11 @@ if __name__ == "__main__":
 
     # --- Cargar dataset ---
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_dir, "data", "processed", "tickets_clean.csv")
+    csv_path = os.path.join(base_dir, "..", "data", "processed", "tickets_clean.csv")
 
     if not os.path.exists(csv_path):
         print("ERROR: No se encontró tickets_clean.csv")
-        print("Ejecuta primero: python3 data/prepare_dataset.py")
+        print("Ejecuta primero: python3 backend/prepare_dataset.py")
         exit(1)
 
     df = pd.read_csv(csv_path)
@@ -404,7 +404,7 @@ if __name__ == "__main__":
     for texto, esperado in ejemplos:
         prediccion = model.predict(texto)
         probas     = model.predict_proba(texto)
-        correcto   = "✅" if prediccion == esperado else "❌"
+        correcto   = "OK" if prediccion == esperado else "ERROR"
 
         print(f"\n  Texto     : {texto}")
         print(f"  Esperado  : {esperado}")
@@ -432,5 +432,5 @@ if __name__ == "__main__":
         os.remove(test_pkl)
         print("  Archivo de prueba eliminado.")
 
-    print("\n✅ naive_bayes.py listo.")
+    print("\nOK - naive_bayes.py listo.")
     print("   Puedes continuar con la Etapa 4: evaluate.py")

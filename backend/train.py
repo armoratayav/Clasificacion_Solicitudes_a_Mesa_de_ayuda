@@ -27,7 +27,7 @@ from naive_bayes import MultinomialNaiveBayes
 # RUTAS
 # -------------------------------------------------------
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH   = os.path.join(BASE_DIR, "data", "processed", "tickets_clean.csv")
+CSV_PATH   = os.path.join(BASE_DIR, "..", "data", "processed", "tickets_clean.csv")
 MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")
 
 # -------------------------------------------------------
@@ -39,7 +39,7 @@ print("=" * 60)
 
 if not os.path.exists(CSV_PATH):
     print("ERROR: No se encontró tickets_clean.csv")
-    print("Ejecuta primero: python3 data/prepare_dataset.py")
+    print("Ejecuta primero: python3 backend/prepare_dataset.py")
     exit(1)
 
 df = pd.read_csv(CSV_PATH)
@@ -95,12 +95,12 @@ casos = [
 
 print("\n  Verificación de predicciones:")
 print(f"  {'Texto':<45} {'Esperado':<22} {'Predicho':<22} OK")
-print(f"  {'─'*100}")
+print(f"  {'-'*100}")
 
 todos_correctos = True
 for texto, esperado in casos:
     predicho = modelo_cargado.predict(texto)
-    ok       = "✅" if predicho == esperado else "❌"
+    ok       = "OK" if predicho == esperado else "ERROR"
     if predicho != esperado:
         todos_correctos = False
     print(f"  {texto:<45} {esperado:<22} {predicho:<22} {ok}")
@@ -116,8 +116,8 @@ print(f"  Tamaño          : {os.path.getsize(MODEL_PATH)/1024:.1f} KB")
 print(f"  Clases          : {modelo_cargado.classes}")
 print(f"  Vocabulario     : {len(modelo_cargado.vocabulary)} palabras")
 print(f"  Total documentos: {len(texts)}")
-print(f"  Verificación    : {'✅ TODAS CORRECTAS' if todos_correctos else '❌ HAY ERRORES'}")
+print(f"  Verificación    : {'OK - TODAS CORRECTAS' if todos_correctos else 'ERROR - HAY ERRORES'}")
 
-print("\n✅ Etapa 5 completada.")
+print("\nOK - Etapa 5 completada.")
 print("   El modelo está listo en: backend/model.pkl")
 print("   Puedes continuar con la Etapa 6: app.py (Flask)")

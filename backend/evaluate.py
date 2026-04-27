@@ -246,9 +246,9 @@ def evaluar_kfolds(texts: list, labels: list, k: int = 5) -> dict:
     print(f"Tamaño de fold : ~{len(texts)//k} muestras")
 
     for fold_idx in range(k):
-        print(f"\n{'─'*60}")
+        print(f"\n{'-'*60}")
         print(f"FOLD {fold_idx + 1} / {k}")
-        print(f"{'─'*60}")
+        print(f"{'-'*60}")
 
         # --- Definir índices de validación y entrenamiento ---
         val_indices   = folds[fold_idx]
@@ -288,7 +288,7 @@ def evaluar_kfolds(texts: list, labels: list, k: int = 5) -> dict:
         print(f"\n  Accuracy  : {accuracy:.4f}  ({accuracy*100:.2f}%)")
         print(f"  Macro F1  : {macro_f1:.4f}")
         print(f"\n  {'Clase':<22} {'Precisión':>10} {'Recall':>10} {'F1':>10}")
-        print(f"  {'─'*55}")
+        print(f"  {'-'*55}")
         for clase in clases:
             m = metricas_clase[clase]
             print(f"  {clase:<22} {m['precision']:>10.4f} {m['recall']:>10.4f} {m['f1']:>10.4f}")
@@ -324,7 +324,7 @@ def evaluar_kfolds(texts: list, labels: list, k: int = 5) -> dict:
 
     # Promediar métricas por clase entre todos los folds
     print(f"\n  {'Clase':<22} {'Prec. Prom':>10} {'Rec. Prom':>10} {'F1 Prom':>10}")
-    print(f"  {'─'*55}")
+    print(f"  {'-'*55}")
 
     metricas_promedio = {}
     clases_metricas = list(resultados_folds[0]["metricas_clase"].keys())
@@ -359,7 +359,7 @@ def evaluar_kfolds(texts: list, labels: list, k: int = 5) -> dict:
     for c in clases:
         header += f"{abrev[c]:>10}"
     print(header)
-    print("  " + "─" * (22 + 10 * len(clases)))
+    print("  " + "-" * (22 + 10 * len(clases)))
 
     for real in clases:
         fila = f"  {real:<22}"
@@ -414,11 +414,11 @@ if __name__ == "__main__":
 
     # --- Cargar dataset limpio ---
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_dir, "data", "processed", "tickets_clean.csv")
+    csv_path = os.path.join(base_dir, "..", "data", "processed", "tickets_clean.csv")
 
     if not os.path.exists(csv_path):
         print("ERROR: No se encontró tickets_clean.csv")
-        print("Ejecuta primero: python3 data/prepare_dataset.py")
+        print("Ejecuta primero: python3 backend/prepare_dataset.py")
         exit(1)
 
     df = pd.read_csv(csv_path)
@@ -449,5 +449,5 @@ if __name__ == "__main__":
       confunden entre sí y cuáles son más fáciles de predecir.
     """)
 
-    print("\n✅ Etapa 4 completada.")
+    print("\nOK - Etapa 4 completada.")
     print("   Puedes continuar con la Etapa 5: train.py")
