@@ -2,12 +2,11 @@
  * HelpDesk AI — Lógica del frontend
  * Universidad Rafael Landívar · Inteligencia Artificial 2026
  *
- * Modo actual: simulado (fakeResponse)
- * Para conectar al backend real, cambia USE_BACKEND a true
- * y asegúrate de que Flask esté corriendo en localhost:5000
+ * Modo actual: backend real con Flask.
+ * Asegúrate de que Flask esté corriendo en localhost:5000.
  */
 
-const USE_BACKEND = false; // Cambiar a true cuando el backend esté listo
+const USE_BACKEND = true; // Usa el servidor Flask en http://localhost:5000
 
 // ─── Paleta de colores por categoría ──────────────────────────────────────────
 const CATEGORY_COLORS = {
@@ -16,12 +15,6 @@ const CATEGORY_COLORS = {
   "Consulta General":{ bar: "#22d3ee", dim: "rgba(34,211,238,0.2)" },
   "Queja":           { bar: "#f87171", dim: "rgba(248,113,113,0.2)" },
   "Cancelación":     { bar: "#a78bfa", dim: "rgba(167,139,250,0.2)" },
-  // Categorías adicionales del dataset Bitext
-  "ORDER":           { bar: "#5b8af5", dim: "rgba(91,138,245,0.2)" },
-  "BILLING":         { bar: "#f59e0b", dim: "rgba(245,158,11,0.2)" },
-  "SHIPPING":        { bar: "#22d3ee", dim: "rgba(34,211,238,0.2)" },
-  "REFUND":          { bar: "#3ecf8e", dim: "rgba(62,207,142,0.2)" },
-  "ACCOUNT":         { bar: "#a78bfa", dim: "rgba(167,139,250,0.2)" },
 };
 
 const DEFAULT_COLOR = { bar: "#8b8fa8", dim: "rgba(139,143,168,0.2)" };
