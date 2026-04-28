@@ -1,1 +1,211 @@
-Colocar aqui el index
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HelpDesk AI — Sistema de Tickets</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Animated background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5h14M3 10h10M3 15h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="16" cy="13" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M18.5 15.5L20 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="logo-text">HelpDesk<span class="logo-ai">AI</span></span>
+      </div>
+      <div class="header-badge">
+        <span class="status-dot"></span>
+        Motor Naïve Bayes activo
+      </div>
+      <div class="header-info">
+        <span class="mono">Universidad Rafael Landívar</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero section -->
+    <section class="hero">
+      <div class="hero-tag">Inteligencia Artificial · Clasificación de Texto</div>
+      <h1 class="hero-title">Sistema de <br><span class="accent">Mesa de Ayuda</span></h1>
+      <p class="hero-sub">Ingresa tu solicitud y nuestro motor de IA la clasificará automáticamente y la enrutará al departamento correcto.</p>
+    </section>
+
+    <!-- Content grid -->
+    <div class="content-grid">
+
+      <!-- Form card -->
+      <div class="card card-form">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="step-num">01</div>
+            <span>Nuevo Ticket</span>
+          </div>
+          <div class="ticket-id-preview mono" id="ticketIdPreview">TCK-??????</div>
+        </div>
+
+        <div class="form-body">
+          <div class="field">
+            <label for="subject">Asunto del ticket</label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="subject"
+                placeholder="Ej: No puedo acceder a mi cuenta"
+                autocomplete="off"
+              />
+              <div class="input-line"></div>
+            </div>
+            <span class="char-count" id="subjectCount">0 / 100</span>
+          </div>
+
+          <div class="field">
+            <label for="description">Descripción del problema</label>
+            <div class="input-wrapper textarea-wrapper">
+              <textarea
+                id="description"
+                placeholder="Describe con detalle tu solicitud o problema. Mientras más información brindes, más precisa será la clasificación..."
+                rows="6"
+              ></textarea>
+              <div class="input-line"></div>
+            </div>
+            <span class="char-count" id="descCount">0 / 1000</span>
+          </div>
+
+          <button class="btn-classify" id="btnClassify" onclick="classifyTicket()">
+            <span class="btn-text">Clasificar Ticket</span>
+            <div class="btn-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="btn-loader" id="btnLoader">
+              <div class="loader-ring"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Result card -->
+      <div class="card card-result" id="resultCard">
+        <div class="result-empty" id="resultEmpty">
+          <div class="empty-icon">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <rect x="6" y="8" width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 16h16M12 21h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="30" cy="30" r="7" fill="var(--bg)" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M27.5 30l1.5 1.5L32 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p>Aquí aparecerá el resultado<br>de la clasificación</p>
+        </div>
+
+        <div class="result-content" id="resultContent" style="display:none">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="step-num">02</div>
+              <span>Resultado</span>
+            </div>
+            <button class="btn-reset" onclick="resetForm()" title="Nuevo ticket">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7a5 5 0 1 0 1-2.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M2 3v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Nuevo
+            </button>
+          </div>
+
+          <!-- Ticket info -->
+          <div class="ticket-info">
+            <div class="ticket-meta">
+              <div class="meta-item">
+                <span class="meta-label">ID del Ticket</span>
+                <span class="meta-value mono" id="resTicketId">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Fecha</span>
+                <span class="meta-value mono" id="resDate">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Estado</span>
+                <span class="meta-value"><span class="badge-open">Abierto</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Predicted category -->
+          <div class="prediction-box">
+            <div class="pred-label">Categoría predicha</div>
+            <div class="pred-category" id="resCategory">—</div>
+            <div class="pred-confidence" id="resConfidence">—</div>
+          </div>
+
+          <!-- Confidence bars -->
+          <div class="scores-section">
+            <div class="scores-title">
+              <div class="step-num step-small">03</div>
+              Distribución de probabilidad
+            </div>
+            <div class="scores-list" id="scoresList"></div>
+          </div>
+
+          <!-- Subject summary -->
+          <div class="ticket-summary">
+            <span class="summary-label">Asunto registrado</span>
+            <span class="summary-text" id="resSubject">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content-grid -->
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num" id="statTotal">0</span>
+        <span class="stat-label">Tickets clasificados</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">11</span>
+        <span class="stat-label">Categorías disponibles</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">26K+</span>
+        <span class="stat-label">Instancias de entrenamiento</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">Naïve Bayes</span>
+        <span class="stat-label">Algoritmo de clasificación</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">
+    <div class="toast-icon">✓</div>
+    <span id="toastMsg">Ticket clasificado exitosamente</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
