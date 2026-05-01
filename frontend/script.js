@@ -10,11 +10,17 @@ const USE_BACKEND = true; // Usa el servidor Flask en http://localhost:5000
 
 // ─── Paleta de colores por categoría ──────────────────────────────────────────
 const CATEGORY_COLORS = {
-  "Soporte Técnico": { bar: "#5b8af5", dim: "rgba(91,138,245,0.2)" },
-  "Facturación":     { bar: "#f59e0b", dim: "rgba(245,158,11,0.2)" },
-  "Consulta General":{ bar: "#22d3ee", dim: "rgba(34,211,238,0.2)" },
-  "Queja":           { bar: "#f87171", dim: "rgba(248,113,113,0.2)" },
-  "Cancelación":     { bar: "#a78bfa", dim: "rgba(167,139,250,0.2)" },
+  "ACCOUNT":      { bar: "#5b8af5", dim: "rgba(91,138,245,0.2)" },
+  "ORDER":        { bar: "#f59e0b", dim: "rgba(245,158,11,0.2)" },
+  "REFUND":       { bar: "#3ecf8e", dim: "rgba(62,207,142,0.2)" },
+  "CONTACT":      { bar: "#22d3ee", dim: "rgba(34,211,238,0.2)" },
+  "INVOICE":      { bar: "#facc15", dim: "rgba(250,204,21,0.2)" },
+  "PAYMENT":      { bar: "#fb7185", dim: "rgba(251,113,133,0.2)" },
+  "FEEDBACK":     { bar: "#a78bfa", dim: "rgba(167,139,250,0.2)" },
+  "DELIVERY":     { bar: "#14b8a6", dim: "rgba(20,184,166,0.2)" },
+  "SHIPPING":     { bar: "#38bdf8", dim: "rgba(56,189,248,0.2)" },
+  "SUBSCRIPTION": { bar: "#c084fc", dim: "rgba(192,132,252,0.2)" },
+  "CANCEL":       { bar: "#f87171", dim: "rgba(248,113,113,0.2)" },
 };
 
 const DEFAULT_COLOR = { bar: "#8b8fa8", dim: "rgba(139,143,168,0.2)" };
@@ -98,8 +104,8 @@ async function classifyTicket() {
 
       // Genera scores aleatorios para hacer la demo más dinámica
       const categories = [
-        "Soporte Técnico", "Facturación", "Consulta General",
-        "Queja", "Cancelación"
+        "ACCOUNT", "ORDER", "REFUND", "CONTACT", "INVOICE", "PAYMENT",
+        "FEEDBACK", "DELIVERY", "SHIPPING", "SUBSCRIPTION", "CANCEL"
       ];
       const raw = categories.map(() => Math.random());
       const total = raw.reduce((a, b) => a + b, 0);
@@ -150,13 +156,13 @@ function renderResult(data, subject) {
   document.getElementById("resTicketId").textContent  = data.ticket_id;
   document.getElementById("resDate").textContent       = dateStr;
   document.getElementById("resCategory").textContent   = data.category;
-  document.getElementById("resConfidence").textContent = `Confianza: ${pctDisplay}%`;
+  document.getElementById("resConfidence").textContent = `Confianza estimada: ${pctDisplay}%`;
   document.getElementById("resSubject").textContent    = subject;
 
   // Actualizar preview del próximo ticket
   generateTicketPreview();
 
-  // Renderizar barras de confianza
+  // Renderizar barras de probabilidad estimada
   renderScoreBars(data.scores, data.category);
 
   // Mostrar panel de resultados

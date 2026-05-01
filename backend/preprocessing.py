@@ -111,37 +111,41 @@ def preprocess_text(text: str) -> list:
     if not isinstance(text, str) or not text.strip():
         return []
 
-    # --- Paso 2: Convertir a minúsculas ---
+    # --- Paso 2: Eliminar placeholders del dataset Bitext ---
+    text = re.sub(r"\{\{[^}]+\}\}", " ", text)
+    text = re.sub(r"\{+[^}]+\}+", " ", text)
+
+    # --- Paso 3: Convertir a minúsculas ---
     text = text.lower()
 
-    # --- Paso 3: Eliminar URLs (http://... o www...) ---
+    # --- Paso 4: Eliminar URLs (http://... o www...) ---
     text = re.sub(r'http\S+|www\.\S+', ' ', text)
 
-    # --- Paso 4: Eliminar correos electrónicos ---
+    # --- Paso 5: Eliminar correos electrónicos ---
     text = re.sub(r'\S+@\S+', ' ', text)
 
-    # --- Paso 5: Eliminar números (solos o mezclados) ---
+    # --- Paso 6: Eliminar números (solos o mezclados) ---
     text = re.sub(r'\b\d+\b', ' ', text)
 
-    # --- Paso 6: Eliminar caracteres especiales y puntuación ---
+    # --- Paso 7: Eliminar caracteres especiales y puntuación ---
     # Conservamos solo letras del alfabeto inglés y espacios
     text = re.sub(r'[^a-z\s]', ' ', text)
 
-    # --- Paso 7: Eliminar espacios múltiples ---
+    # --- Paso 8: Eliminar espacios múltiples ---
     text = re.sub(r'\s+', ' ', text).strip()
 
-    # --- Paso 8: Tokenización (split por espacios) ---
+    # --- Paso 9: Tokenización (split por espacios) ---
     tokens = text.split()
 
-    # --- Paso 9: Eliminar stopwords ---
+    # --- Paso 10: Eliminar stopwords ---
     tokens = [t for t in tokens if t not in STOPWORDS]
 
-    # --- Paso 10: Stemming con PorterStemmer ---
+    # --- Paso 11: Stemming con PorterStemmer ---
     # Reduce cada token a su raíz morfológica.
     # Ejemplo: "billing" -> "bill", "running" -> "run"
     tokens = [_stemmer.stem(t) for t in tokens]
 
-    # --- Paso 11: Filtrar tokens muy cortos o vacíos ---
+    # --- Paso 12: Filtrar tokens muy cortos o vacíos ---
     tokens = [t for t in tokens if len(t) >= MIN_TOKEN_LENGTH]
 
     return tokens
@@ -172,29 +176,24 @@ if __name__ == "__main__":
 
     casos_prueba = [
         {
-            "categoria": "Soporte Técnico",
-            "texto": "Product setup I'm having an issue with the device. "
-                     "I've tried troubleshooting steps but the problem persists."
+            "categoria": "ACCOUNT",
+            "texto": "I cannot access my account and need to reset my password."
         },
         {
-            "categoria": "Facturación",
-            "texto": "Billing error I was charged twice this month on my invoice. "
-                     "Please check my account and issue a refund."
+            "categoria": "ORDER",
+            "texto": "I want to check the status of my order {{Order Number}}."
         },
         {
-            "categoria": "Cancelación",
-            "texto": "Account cancellation I want to cancel my subscription "
-                     "and close my account permanently."
+            "categoria": "REFUND",
+            "texto": "I want to request a refund for a returned product."
         },
         {
-            "categoria": "Consulta General",
-            "texto": "Product inquiry Can you tell me more about the features "
-                     "available in the premium plan?"
+            "categoria": "SHIPPING",
+            "texto": "My package has not arrived and I need the tracking information."
         },
         {
-            "categoria": "Queja",
-            "texto": "Refund request I am very dissatisfied with the service. "
-                     "The product stopped working after one week and I want my money back."
+            "categoria": "PAYMENT",
+            "texto": "My payment was declined when I tried to complete the purchase."
         },
     ]
 

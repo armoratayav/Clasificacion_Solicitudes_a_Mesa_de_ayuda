@@ -55,7 +55,7 @@ class MultinomialNaiveBayes:
     """
 
     def __init__(self):
-        self.classes          = []       # ['Soporte Técnico', 'Facturación', ...]
+        self.classes          = []       # Clases detectadas dinamicamente desde labels
         self.vocabulary       = set()    # Vocabulario global (Bag of Words)
         self.class_doc_counts = {}       # {clase: num_documentos}
         self.class_priors     = {}       # {clase: log P(clase)}
@@ -331,7 +331,6 @@ class MultinomialNaiveBayes:
 
 # -------------------------------------------------------
 # BLOQUE DE PRUEBA
-# Ejecutar directamente: python3 naive_bayes.py
 # -------------------------------------------------------
 if __name__ == "__main__":
     import pandas as pd
@@ -389,16 +388,18 @@ if __name__ == "__main__":
     print("=" * 60)
 
     ejemplos = [
-        ("Billing invoice charged twice this month on my account",
-         "Facturación"),
-        ("My internet connection keeps dropping and I cannot connect",
-         "Soporte Técnico"),
-        ("I want to cancel my subscription and close my account",
-         "Cancelación"),
-        ("What features are included in the premium plan",
-         "Consulta General"),
-        ("Very disappointed with the quality of service I received",
-         "Queja"),
+        ("I cannot access my account and need to reset my password",
+         "ACCOUNT"),
+        ("I want to check the status of my order",
+         "ORDER"),
+        ("I want to request a refund for a returned product",
+         "REFUND"),
+        ("My package has not arrived and I need the tracking information",
+         "SHIPPING"),
+        ("My payment was declined when I tried to complete the purchase",
+         "PAYMENT"),
+        ("I want to cancel my subscription and stop the renewal",
+         "CANCEL"),
     ]
 
     for texto, esperado in ejemplos:
@@ -424,7 +425,7 @@ if __name__ == "__main__":
     model.save(test_pkl)
 
     model2 = MultinomialNaiveBayes.load(test_pkl)
-    pred2  = model2.predict("I was charged twice on my billing account")
+    pred2  = model2.predict("I want to check the status of my order")
     print(f"  Predicción con modelo recargado: {pred2}")
 
     # Limpiar archivo de prueba

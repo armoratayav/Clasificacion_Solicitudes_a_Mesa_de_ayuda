@@ -16,17 +16,17 @@ Uso:
 Ejemplo de request:
     POST http://localhost:5000/predict
     {
-        "subject": "Problem with my invoice",
-        "description": "I was charged twice this month"
+        "subject": "Order status",
+        "description": "I want to check the status of my order"
     }
 
 Ejemplo de response:
     {
         "ticket_id": "TCK-000123",
-        "category": "Facturación",
+        "category": "ORDER",
         "scores": {
-            "Facturación": 0.87,
-            "Soporte Técnico": 0.06,
+            "ORDER": 0.65,
+            "ACCOUNT": 0.12,
             ...
         }
     }
@@ -158,20 +158,18 @@ def predict():
 
     Request body (JSON):
         {
-            "subject"     : "Problem with my invoice",
-            "description" : "I was charged twice this month"
+            "subject"     : "Order status",
+            "description" : "I want to check the status of my order"
         }
 
     Response (JSON):
         {
             "ticket_id" : "TCK-143022-1234",
-            "category"  : "Facturación",
+            "category"  : "ORDER",
             "scores"    : {
-                "Facturación"    : 0.87,
-                "Soporte Técnico": 0.06,
-                "Consulta General": 0.04,
-                "Queja"          : 0.02,
-                "Cancelación"    : 0.01
+                "ORDER"   : 0.65,
+                "ACCOUNT" : 0.12,
+                "REFUND"  : 0.05
             },
             "timestamp" : "2026-04-01T14:30:22"
         }

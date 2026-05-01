@@ -84,13 +84,14 @@ print("=" * 60)
 
 modelo_cargado = MultinomialNaiveBayes.load(MODEL_PATH)
 
-# Casos de prueba de verificación
+# Casos de prueba de verificacion con categorias Bitext.
 casos = [
-    ("billing charged twice invoice payment error",       "Facturación"),
-    ("technical issue software crash error device",       "Soporte Técnico"),
-    ("cancel subscription account closure terminate",     "Cancelación"),
-    ("product features information pricing inquiry",      "Consulta General"),
-    ("complaint dissatisfied poor service quality",       "Queja"),
+    ("I cannot access my account and need to reset my password", "ACCOUNT"),
+    ("I want to check the status of my order", "ORDER"),
+    ("I want to request a refund for a returned product", "REFUND"),
+    ("My package has not arrived and I need the tracking information", "SHIPPING"),
+    ("My payment was declined when I tried to complete the purchase", "PAYMENT"),
+    ("I want to cancel my subscription and stop the renewal", "CANCEL"),
 ]
 
 print("\n  Verificación de predicciones:")
